@@ -1,100 +1,89 @@
-# You can use this file to easily send requests to your API.
-# Prerequisite: humao.rest-client Vscode plugin (already present on codespace)
-# High-level overview of REST API concepts used here: https://www.packtpub.com/en-us/learning/how-to-tutorials/what-are-rest-verbs-and-status-codes-tutorial
+### Variables
+@baseUrl = http://localhost:8080/api
+@repoId = 69b9bada27b0b7690aea91a1
+@ticketId = 69b9bba327b0b7690aea91a4
 
-# TIP: Run requests in order - later requests reference IDs from earlier responses
+#Repo
 
-
-# ==========================================
-# User Controller Endpoints
-# ==========================================
-
-### Get all users
-GET http://localhost:8080/api/users
-
-### Create a new user (run this to populate variables for other requests)
-# @name createUser
-POST http://localhost:8080/api/users
+# Create a new Repository
+POST {{baseUrl}}/repositories
 Content-Type: application/json
 
 {
-    "name": "Jean Valjean",
-    "email": "prisoner24601@france.fr"
+  "name": "E-Commerce Platform",
+  "description": "Main backend microservices for the shopping cart and checkout",
+  "key": "ECOUU",
+  "ownerId": "user-123"
 }
 
-### Get user by ID (uses ID from createUser response)
-GET http://localhost:8080/api/users/{{createUser.response.body.id}}
+###
+# get repo details
+###
+GET {{baseUrl}}/repositories/{{repoId}}
+Content-Type: application/json
 
-### Get user by email (uses email from createUser response)
-GET http://localhost:8080/api/users/by-email?email={{createUser.response.body.email}}
+###
 
-### Update user name (PUT)
-PUT http://localhost:8080/api/users/{{createUser.response.body.id}}
+### Update repo version (daca sunt tickets deschise, nu se poate face update la versiune)
+PATCH {{baseUrl}}/repositories/{{repoId}}/version
 Content-Type: application/json
 
 {
-    "name": "Monsieur Madeleine"
+  "newVersion": "1.1.0",
+  "releaseNotes": "Added the new payment gateway integration.",
+  "updatedById": "user-456"
 }
 
-### Change user name (PATCH)
-PATCH http://localhost:8080/api/users/{{createUser.response.body.id}}/name
+
+###
+# 2. TICKETS
+###
+
+### tichet nou pt repo
+POST {{baseUrl}}/tickets
 Content-Type: application/json
 
 {
-    "name": "Monsieur le Maire"
+  "title": "Payment gateway timeout",
+  "description": "When users try to pay with credit card, the system times out after 30 seconds.",
+  "repositoryId": "{{repoId}}",
+  "assignedById": "tester-788"
 }
 
+###
 
-# ==========================================
-# Todo Controller Endpoints
-# ==========================================
+### Get all Tickets for a Repository
+GET {{baseUrl}}/tickets/repository/{{repoId}}
+Content-Type: application/json
 
-### Create a new todo (run this after createUser to populate variables)
-# @name createTodo
-POST http://localhost:8080/api/todos
+###
+
+### Change Ticket Status
+# statusuri OPEN, IN_EXECUTION, RESOLVED, CLOSED
+PATCH {{baseUrl}}/tickets/{{ticketId}}/status
 Content-Type: application/json
 
 {
-    "description": "Rescue Cosette from the Thénardiers",
-    "assigneeEmail": "{{createUser.response.body.email}}"
+  "status": "OPEN"
 }
 
-### Get todos by assignee email
-GET http://localhost:8080/api/todos?assigneeEmail={{createUser.response.body.email}}
 
-### Get todo by ID (uses ID from createTodo response)
-GET http://localhost:8080/api/todos/{{createTodo.response.body.id}}
+###
+# COMMENTS
+###
 
-### Mark todo as done
-PATCH http://localhost:8080/api/todos/{{createTodo.response.body.id}}/done
-Content-Type: application/json
-
-true
-
-### Assign todo to another user
-# Note: You'll need another user to exist for this to work
-PATCH http://localhost:8080/api/todos/{{createTodo.response.body.id}}/assignee
+### Add a Comment to a Ticket
+POST {{baseUrl}}/comments
 Content-Type: application/json
 
 {
-    "newAssigneeEmail": "frodo@theshire.me"
+  "ticketId": "{{ticketId}}",
+  "userId": "developer-101",
+  "content": "I am looking into the timeout issue right now. It seems related to the third-party API."
 }
 
-### Edit todo description
-PATCH http://localhost:8080/api/todos/{{createTodo.response.body.id}}/description
+###
+
+### Get all Comments for a Ticket
+GET {{baseUrl}}/comments/ticket/{{ticketId}}
 Content-Type: application/json
-
-{
-    "description": "Escape from Inspector Javert"
-}
-
-
-# ==========================================
-# Cleanup (run these last)
-# ==========================================
-
-### Delete todo
-DELETE http://localhost:8080/api/todos/{{createTodo.response.body.id}}
-
-### Delete user
-DELETE http://localhost:8080/api/users/{{createUser.response.body.id}}
