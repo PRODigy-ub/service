@@ -1,4 +1,4 @@
-﻿package ro.unibuc.prodeng.response;
+package ro.unibuc.prodeng.response;
 
 import ro.unibuc.prodeng.model.enums.TicketStatusEnum;
 

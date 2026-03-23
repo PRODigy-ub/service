@@ -1,4 +1,4 @@
-﻿package ro.unibuc.prodeng.service;
+package ro.unibuc.prodeng.service;
 
 import ro.unibuc.prodeng.response.TicketDetailResponse;
 import java.util.List;

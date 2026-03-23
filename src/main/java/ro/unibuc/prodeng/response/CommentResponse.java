@@ -1,4 +1,4 @@
-﻿package ro.unibuc.prodeng.response;
+package ro.unibuc.prodeng.response;
 
 public record CommentResponse(
         String id,

@@ -1,4 +1,4 @@
-﻿package ro.unibuc.prodeng.controller;
+package ro.unibuc.prodeng.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
