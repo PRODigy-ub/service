@@ -1,4 +1,4 @@
-﻿package ro.unibuc.prodeng.request;
+package ro.unibuc.prodeng.request;
 
 import jakarta.validation.constraints.NotBlank;
 
