@@ -10,4 +10,6 @@ import java.util.List;
 public interface CommentRepository extends MongoRepository<CommentEntity, String> {
 
     List<CommentEntity> findByTicketId(String ticketId);
+
+    long countByTicketId(String ticketId);
 }
