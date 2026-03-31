@@ -7,6 +7,10 @@ public interface TicketService {
     TicketDetailResponse createTicket(String title, String description, String repositoryId, String assignedById);
 
     TicketDetailResponse changeStatus(String ticketId, String newStatusEnumName);
+    
+    TicketDetailResponse assignTicket(String ticketId, String currentUserId, String assignedToId);
+
+    TicketDetailResponse resolveTicket(String ticketId, String userId);
 
     List<TicketDetailResponse> getTicketsByRepository(String repositoryId);
 }
