@@ -45,6 +45,39 @@ public class TicketController {
         return ResponseEntity.ok(response);
     }
 
+    @PatchMapping("/{id}/assign")
+    public ResponseEntity<TicketDetailResponse> assignTicket(
+            @PathVariable String id,
+            @RequestBody Map<String, String> body) {
+
+        String currentUserId = body.get("currentUserId");
+        String assignedToId = body.get("assignedToId");
+
+        if (currentUserId == null || currentUserId.isBlank()) {
+            throw new IllegalArgumentException("Current user ID cannot be null");
+        }
+        if (assignedToId == null || assignedToId.isBlank()) {
+            throw new IllegalArgumentException("Assigned to user ID cannot be null");
+        }
+
+        TicketDetailResponse response = ticketService.assignTicket(id, currentUserId, assignedToId);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}/resolve")
+    public ResponseEntity<TicketDetailResponse> resolveTicket(
+            @PathVariable String id,
+            @RequestBody Map<String, String> body) {
+
+        String userId = body.get("userId");
+        if (userId == null || userId.isBlank()) {
+            throw new IllegalArgumentException("User ID cannot be null");
+        }
+
+        TicketDetailResponse response = ticketService.resolveTicket(id, userId);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/repository/{repositoryId}")
     public ResponseEntity<List<TicketDetailResponse>> getTicketsByRepository(@PathVariable String repositoryId) {
         List<TicketDetailResponse> responses = ticketService.getTicketsByRepository(repositoryId);
