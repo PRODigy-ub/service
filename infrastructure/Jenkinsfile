@@ -36,7 +36,7 @@ pipeline {
                     sh 'git fetch --tags --force'
 
                     def latestTag = sh(
-                        script: "git tag | grep -E '^[0-9]+\\.[0-9]+\\.[0-9]+$' | sort -V | tail -1 || true",
+                        script: 'git tag | grep -E "^[0-9]+\\.[0-9]+\\.[0-9]+$" | sort -V | tail -1 || true',
                         returnStdout: true
                     ).trim()
 
