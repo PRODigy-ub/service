@@ -1,4 +1,4 @@
-﻿package ro.unibuc.prodeng.controller;
+package ro.unibuc.prodeng.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
