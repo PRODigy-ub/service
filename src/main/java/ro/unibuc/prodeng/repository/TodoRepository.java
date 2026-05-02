@@ -10,4 +10,6 @@ import ro.unibuc.prodeng.model.TodoEntity;
 public interface TodoRepository extends MongoRepository<TodoEntity, String> {
 
     List<TodoEntity> findByAssignedUserId(String assignedUserId);
+
+    long countByDoneFalse();
 }

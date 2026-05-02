@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ro.unibuc.prodeng.monitoring.MonitoringMetricsService;
 import ro.unibuc.prodeng.model.TodoEntity;
 import ro.unibuc.prodeng.repository.TodoRepository;
 import ro.unibuc.prodeng.model.UserEntity;
@@ -22,6 +23,9 @@ public class TodoService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MonitoringMetricsService monitoringMetricsService;
 
     public List<TodoResponse> getTodosByUserEmail(String email) throws EntityNotFoundException {
         UserEntity user = userService.getUserEntityByEmail(email);
@@ -47,6 +51,7 @@ public class TodoService {
                 assignee.id()
         );
         TodoEntity saved = todoRepository.save(todo);
+        monitoringMetricsService.recordTodoCreated();
         return toResponse(saved, assignee);
     }
 

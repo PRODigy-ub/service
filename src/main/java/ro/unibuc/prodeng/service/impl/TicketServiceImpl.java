@@ -2,6 +2,7 @@ package ro.unibuc.prodeng.service.impl;
 
 import org.springframework.stereotype.Service;
 import ro.unibuc.prodeng.exception.InvalidOperationException;
+import ro.unibuc.prodeng.monitoring.MonitoringMetricsService;
 import ro.unibuc.prodeng.exception.RepositoryNotFoundException;
 import ro.unibuc.prodeng.exception.TicketNotFoundException;
 import ro.unibuc.prodeng.model.RepositoryEntity;
@@ -23,12 +24,14 @@ public class TicketServiceImpl implements TicketService {
     private final TicketRepository ticketRepository;
     private final RepositoryRepository repositoryRepository;
     private final CommentRepository commentRepository;
+    private final MonitoringMetricsService monitoringMetricsService;
 
     public TicketServiceImpl(TicketRepository ticketRepository, RepositoryRepository repositoryRepository,
-            CommentRepository commentRepository) {
+            CommentRepository commentRepository, MonitoringMetricsService monitoringMetricsService) {
         this.ticketRepository = ticketRepository;
         this.repositoryRepository = repositoryRepository;
         this.commentRepository = commentRepository;
+        this.monitoringMetricsService = monitoringMetricsService;
     }
 
     @Override
@@ -48,6 +51,7 @@ public class TicketServiceImpl implements TicketService {
                 repo.currentVersion());
 
         TicketEntity savedTicket = ticketRepository.save(ticket);
+        monitoringMetricsService.recordTicketCreated();
         return mapToResponse(savedTicket);
     }
 

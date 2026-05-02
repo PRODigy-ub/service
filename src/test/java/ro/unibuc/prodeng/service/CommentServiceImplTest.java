@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ro.unibuc.prodeng.exception.InvalidOperationException;
 import ro.unibuc.prodeng.exception.TicketNotFoundException;
+import ro.unibuc.prodeng.monitoring.MonitoringMetricsService;
 import ro.unibuc.prodeng.model.CommentEntity;
 import ro.unibuc.prodeng.model.TicketEntity;
 import ro.unibuc.prodeng.model.enums.TicketStatusEnum;
@@ -32,6 +33,9 @@ class CommentServiceImplTest {
 
     @Mock
     private TicketRepository ticketRepository;
+
+    @Mock
+    private MonitoringMetricsService monitoringMetricsService;
 
     @InjectMocks
     private CommentServiceImpl commentService;

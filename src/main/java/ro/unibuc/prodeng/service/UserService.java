@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ro.unibuc.prodeng.monitoring.MonitoringMetricsService;
 import ro.unibuc.prodeng.model.UserEntity;
 import ro.unibuc.prodeng.repository.UserRepository;
 import ro.unibuc.prodeng.request.CreateUserRequest;
@@ -16,6 +17,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private MonitoringMetricsService monitoringMetricsService;
 
     public List<UserResponse> getAllUsers() {
         return userRepository.findAll().stream()
@@ -44,6 +48,7 @@ public class UserService {
                 request.email()
         );
         UserEntity saved = userRepository.save(user);
+        monitoringMetricsService.recordUserCreated();
         return toResponse(saved);
     }
 

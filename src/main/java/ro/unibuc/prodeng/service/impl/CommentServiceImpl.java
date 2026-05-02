@@ -2,6 +2,7 @@ package ro.unibuc.prodeng.service.impl;
 
 import org.springframework.stereotype.Service;
 import ro.unibuc.prodeng.exception.InvalidOperationException;
+import ro.unibuc.prodeng.monitoring.MonitoringMetricsService;
 import ro.unibuc.prodeng.exception.TicketNotFoundException;
 import ro.unibuc.prodeng.model.CommentEntity;
 import ro.unibuc.prodeng.model.TicketEntity;
@@ -19,10 +20,13 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final TicketRepository ticketRepository;
+    private final MonitoringMetricsService monitoringMetricsService;
 
-    public CommentServiceImpl(CommentRepository commentRepository, TicketRepository ticketRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, TicketRepository ticketRepository,
+            MonitoringMetricsService monitoringMetricsService) {
         this.commentRepository = commentRepository;
         this.ticketRepository = ticketRepository;
+        this.monitoringMetricsService = monitoringMetricsService;
     }
 
     @Override
@@ -38,6 +42,7 @@ public class CommentServiceImpl implements CommentService {
                 null, content, ticketId, userId);
 
         CommentEntity savedComment = commentRepository.save(comment);
+        monitoringMetricsService.recordCommentCreated();
         return mapToResponse(savedComment);
     }
 

@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ro.unibuc.prodeng.exception.InvalidOperationException;
+import ro.unibuc.prodeng.monitoring.MonitoringMetricsService;
 import ro.unibuc.prodeng.exception.RepositoryNotFoundException;
 import ro.unibuc.prodeng.exception.TicketNotFoundException;
 import ro.unibuc.prodeng.model.RepositoryEntity;
@@ -43,6 +44,9 @@ class TicketServiceImplTest {
 
     @Mock
     private CommentRepository commentRepository;
+
+    @Mock
+    private MonitoringMetricsService monitoringMetricsService;
 
     @InjectMocks
     private TicketServiceImpl ticketService;

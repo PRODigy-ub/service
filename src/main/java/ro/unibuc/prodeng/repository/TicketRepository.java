@@ -16,4 +16,6 @@ public interface TicketRepository extends MongoRepository<TicketEntity, String> 
             TicketStatusEnum status);
 
     long countByRepositoryIdAndStatusNot(String repositoryId, TicketStatusEnum status);
+
+    long countByStatusNot(TicketStatusEnum status);
 }
