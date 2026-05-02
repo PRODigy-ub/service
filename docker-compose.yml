@@ -27,7 +27,7 @@ services:
       - ./Dockerfile:/Dockerfile
       - /usr/libexec/docker/cli-plugins/docker-compose:/usr/libexec/docker/cli-plugins/docker-compose
     profiles:
-      - "prod-eng-service"
+      - "jenkins"
     user: 0:0
   mongo:
     image: mongo:6.0.20

@@ -1,6 +1,7 @@
 global:
   scrape_interval: 30s
   scrape_timeout: 30s
+  evaluation_interval: 15s
 
 scrape_configs:
   - job_name: 'prometheus'
@@ -25,6 +26,7 @@ scrape_configs:
 
 # Rules and alerts are read from the specified file(s)
 rule_files:
+  - lab9-alerts.yml
   - app-alerts.yml
   - canary-alerts.yml
   - container-alerts.yml

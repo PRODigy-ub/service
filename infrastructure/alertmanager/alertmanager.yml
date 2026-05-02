@@ -2,18 +2,20 @@ global:
   resolve_timeout: 1m
 
 route:
-  group_by: ['alertname']
+  group_by: ['alertname', 'category']
   group_wait: 10s
   group_interval: 10s
   repeat_interval: 1m
   receiver: 'email'
-  
+
 receivers:
 - name: 'email'
   email_configs:
-  - to: 'EMAIL@gmail.com'
-    from: 'EMAIL@gmail.com'
-    smarthost: smtp.gmail.com:587
-    auth_username: 'EMAIL@gmail.com'
-    auth_identity: 'EMAIL@gmail.com'
-    auth_password: 'GENERATE ONE FROM https://security.google.com/settings/security/apppasswords'
+  - to: 'alexandru.tamer@prodigy.org'
+    from: 'adrian.aparaschivei@prodigy.org'
+    smarthost: 'app.debugmail.io:25'
+    auth_username: 'bfebfa6e-4909-4c31-8e89-e3cd7d4e5429'
+    auth_identity: 'bfebfa6e-4909-4c31-8e89-e3cd7d4e5429'
+    auth_password: '65ff9b0d-48d9-4e38-864e-21088301303a'
+    require_tls: true
+    send_resolved: true

@@ -1,0 +1,35 @@
+groups:
+  - name: Lab9ApplicationAlerts
+    rules:
+      - alert: Lab9ApplicationUnavailable
+        expr: up{job="spring-prod-eng-app"} == 0
+        for: 10s
+        labels:
+          severity: critical
+          category: availability
+        annotations:
+          summary: "ProdEng application is unavailable"
+          description: "Prometheus cannot scrape the Spring Boot application target for more than 10 seconds."
+          scenario: "Stop the prod-eng container, wait for the alert to fire, then start it again to observe the resolved notification."
+
+      - alert: Lab9HighRequestThroughput
+        expr: (sum(rate(app_request_duration_seconds_count{uri!~"/actuator/.*"}[1m])) or vector(0)) > 5
+        for: 10s
+        labels:
+          severity: warning
+          category: performance
+        annotations:
+          summary: "ProdEng request throughput is high"
+          description: "Non-actuator application traffic is above 5 requests per second for more than 10 seconds."
+          scenario: "Run the perf injector or another reproducible load test against an application endpoint."
+
+      - alert: Lab9ElevatedErrorRate
+        expr: (sum(rate(app_errors_total[1m])) or vector(0)) > 0.01
+        for: 10s
+        labels:
+          severity: warning
+          category: quality
+        annotations:
+          summary: "ProdEng error rate is elevated"
+          description: "Handled application errors are above 0.01 errors per second for more than 10 seconds."
+          scenario: "Repeatedly call an endpoint with invalid data or an unknown entity id, then stop the calls to observe resolution."
